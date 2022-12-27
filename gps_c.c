@@ -19,7 +19,7 @@ int main(void)
 		printf("/dev/ttyUSB0 unavailable. %d\n", fd);
 		exit (0);
 	}
-	printf("%d test", fd);
+
 	tcgetattr(fd, &term);
 	cfsetspeed(&term, B4800);
 	tcsetattr(fd, TCSANOW, &term);
