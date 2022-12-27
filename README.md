@@ -1,5 +1,5 @@
 # gps-viewer
-gps data line viewer test
+gps data line viewer
 
 Open /dev/ttyUSB0
 Configure port speed to 4800 bauds
