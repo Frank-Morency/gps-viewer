@@ -5,24 +5,20 @@
 #include <termios.h>
 
 struct termios term;
+int openFd();
+void setPort(int fd);
 
 int main(void)
 {
 	int fd;
 	char buf[100];
 	int i;
-	
-	i = 0;	
-	fd = open("/dev/ttyUSB0", O_RDONLY | O_NOCTTY | O_SYNC);
-	if (fd == -1)
-	{
-		printf("/dev/ttyUSB0 unavailable. %d\n", fd);
-		exit (0);
-	}
-
-	tcgetattr(fd, &term);
-	cfsetspeed(&term, B4800);
-	tcsetattr(fd, TCSANOW, &term);
+	i = 0;
+	fd = openFd();	
+	setPort(fd);
+	//tcgetattr(fd, &term);
+	//cfsetspeed(&term, B4800);
+	//tcsetattr(fd, TCSANOW, &term);
 
 	while (fd)
 	{
@@ -38,4 +34,22 @@ int main(void)
 	}
 	close(fd);
 	return(0);
+}
+
+int openFd(){
+	int fd;
+	fd = open("/dev/ttyUSB0", O_RDONLY | O_NOCTTY | O_SYNC);
+	if (fd == -1)
+	{
+		printf("/dev/ttyUSB0 unavailable. %d\n", fd);
+		exit (0);
+	}
+	return (fd);
+}
+
+void setPort(int fd){
+	tcgetattr(fd, &term);
+	cfsetspeed(&term, B4800);
+	tcsetattr(fd, TCSANOW, &term);
+
 }
