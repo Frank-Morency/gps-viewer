@@ -37,6 +37,5 @@ int main(void)
 		}
 	}
 	close(fd);
-	return(1);
+	return(0);
 }
-//stty - F /dev/ttyUSB0 4800
