@@ -5,6 +5,7 @@
 #include <termios.h>
 
 struct termios term;
+
 int openFd();
 void setPort(int fd);
 
@@ -16,10 +17,6 @@ int main(void)
 	i = 0;
 	fd = openFd();	
 	setPort(fd);
-	//tcgetattr(fd, &term);
-	//cfsetspeed(&term, B4800);
-	//tcsetattr(fd, TCSANOW, &term);
-
 	while (fd)
 	{
 		i = 0;
