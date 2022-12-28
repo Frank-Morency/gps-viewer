@@ -4,19 +4,23 @@
 #include <stdlib.h>
 #include <termios.h>
 #include <string.h>
-/*need to add command line argument to select whats printed on screen
+/*If you run the program without any argument, every sentence will show on screen
+if you want to print only one type of sentence run it as in exemple: "name of prog" \$GPGGA
+this will only show $GPGGA sentence on screen/
+
 ? print form with result displayed with an update frequency*/
 struct termios term;
 
 int openFd();
 void setPort(int fd);
 
-int main(void)
-{
+int main(int argc, char *argv[]) {
+
+	char ref[100] = "$";
 	int fd;
 	char buf[100];
 	int i = 0;
-
+	
 	fd = openFd();	
 	setPort(fd);
 
@@ -25,18 +29,22 @@ int main(void)
 		i = 0;
 
 		read(fd, &buf, 100);
-		char ref[7] = "$GPGGA";
 
 		if (*buf == '$')
 		{	
 			char out[100];
+			if (argc == 2) {
+				strcpy(ref, argv[1]);
+			}
+			else {
+				strcpy(ref, buf);
+			}
+
 			strcpy(out, buf);
 			if(memcmp(buf, ref, 6) == 0)
 			{
 				printf("%s\n",out);
 			}
-			//printf("*****%s\n",out);
-			//printf("%s\n", &*buf);
 			while (i < 100)
 				buf[i++] = '\0';
 		}
