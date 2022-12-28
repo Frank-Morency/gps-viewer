@@ -19,7 +19,6 @@ int main(int argc, char *argv[]) {
 	char ref[100] = "$";
 	int fd;
 	char buf[100];
-	//int i = 0;
 	
 	fd = openFd();	
 	setPort(fd);
