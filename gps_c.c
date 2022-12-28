@@ -19,17 +19,14 @@ int main(int argc, char *argv[]) {
 	char ref[100] = "$";
 	int fd;
 	char buf[100];
-	int i = 0;
+	//int i = 0;
 	
 	fd = openFd();	
 	setPort(fd);
 
 	while (fd)
 	{
-		i = 0;
-
 		read(fd, &buf, 100);
-
 		if (*buf == '$')
 		{	
 			char out[100];
@@ -45,8 +42,7 @@ int main(int argc, char *argv[]) {
 			{
 				printf("%s\n",out);
 			}
-			while (i < 100)
-				buf[i++] = '\0';
+			bzero(buf, 100);
 		}
 	}
 	close(fd);
