@@ -6,7 +6,7 @@
 #include <string.h>
 /*If you run the program without any argument, every sentence will show on screen
 if you want to print only one type of sentence run it as in exemple: "name of prog" \$GPGGA
-this will only show $GPGGA sentence on screen/
+this will only show $GPGGA sentence on screen
 
 ? print form with result displayed with an update frequency*/
 struct termios term;
