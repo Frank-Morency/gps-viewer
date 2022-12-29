@@ -68,12 +68,12 @@ int main(int argc, char *argv[])
 			char out[100];
 			strcpy(out, buf);
 			if (ref[0] != '$'){
-				printf("%s\n", out);
+				printf("%s", out);
 			}	
 			else{
 				if (memcmp(buf, ref, 6) == 0)
 				{
-					printf("%s\n", out);
+					printf("%s", out);
 				}
 			}
 			bzero(buf, 100);
