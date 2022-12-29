@@ -9,8 +9,8 @@ only one type of sentence run it as in:
 exemple: "name of prog" \$GPGGA
 this will only take $GPGGA sentence on pipe*/
 
-int		openFd(void);
-void	setPort(int fd);
+int		open_fd(void);
+void	set_port(int fd);
 
 int	main(int argc, char *argv[])
 {
