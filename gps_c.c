@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 	else
 	{
 		printf("type 1 for $GGPGA\ntype 2 for $GPGSA\ntype 3 for $GPGSV\ntype 4 for $GPRMC\n");
-		printf("Select which data sentence you want to see:\n");
+		printf("Select which data sentence you want to see:(Press Enter to display everything.\n");
 		scanf("%d", &input);
 
 		switch (input){
