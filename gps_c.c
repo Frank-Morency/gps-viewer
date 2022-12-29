@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
 	char gpgsa[] = "$GPGSA";
 	char gpgsv[] = "$GPGSV";
 	char gprmc[] = "$GPRMC";
+	char test[] = "ALL";
 
 
 	fd = openFd();
@@ -37,8 +38,8 @@ int main(int argc, char *argv[])
 	else
 	{
 		printf("type 1 for $GGPGA\ntype 2 for $GPGSA\ntype 3 for $GPGSV\ntype 4 for $GPRMC\n");
-		printf("Select which data sentence you want to see:(Press Enter to display everything.\n");
-		scanf("%d", &input);
+		printf("Select which data sentence you want to see:(0 to display everything.)\n");
+		scanf(" %d", &input);
 
 		switch (input){
 			case (1):
@@ -54,7 +55,7 @@ int main(int argc, char *argv[])
 				strcpy(ref, gprmc);
 				break;
 			default:
-				printf("no selection, every sentence will be shown");
+				//strcpy(ref, test);
 				break;
 		}
 	}
@@ -65,16 +66,19 @@ int main(int argc, char *argv[])
 		if (*buf == '$')
 		{
 			char out[100];
-			if (ref == NULL)
-				strcpy(ref, buf);	
 			strcpy(out, buf);
-			if (memcmp(buf, ref, 6) == 0)
-			{
+			if (ref[0] != '$'){
 				printf("%s\n", out);
+			}	
+			else{
+				if (memcmp(buf, ref, 6) == 0)
+				{
+					printf("%s\n", out);
+				}
 			}
 			bzero(buf, 100);
 		}
-	}
+	}	
 	close(fd);
 
 	return (0);
