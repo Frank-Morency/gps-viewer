@@ -12,6 +12,8 @@ this will only take $GPGGA sentence on pipe.
 
 If you dont put any argument you have to select at runtime*/
 
+#define PORT_SPEED B4800
+
 int		open_fd(void);
 void	set_port(int fd);
 void	menu(char *Pref);
@@ -78,9 +80,10 @@ void	set_port(int fd)
 	struct termios	term;
 
 	tcgetattr(fd, &term);
-	cfsetspeed(&term, B4800);
+	cfsetspeed(&term, PORT_SPEED);
 	tcsetattr(fd, TCSANOW, &term);
 }
+
 void menu(char *Pref){
 	int		input = 0;
 	char	gpgga[] = "$GPGGA";
