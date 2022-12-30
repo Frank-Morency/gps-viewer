@@ -18,7 +18,7 @@ void	menu(char *Pref);
 
 int	main(int argc, char *argv[])
 {
-	char	ref[100] = " ";
+	char	ref[100] = "x";
 	char	*Pref = ref;
 	int		fd;
 	char	buf[100];
@@ -96,22 +96,22 @@ void menu(char *Pref){
 		{
 			case (1) :
 			{
-				strcpy(&*Pref, gpgga);
+				strcpy(Pref, gpgga);
 				break ;
 			}
 			case (2) :
 			{
-				strcpy(&*Pref, gpgsa);
+				strcpy(Pref, gpgsa);
 				break ;
 			}
 			case (3) :
 			{
-				strcpy(&*Pref, gpgsv);
+				strcpy(Pref, gpgsv);
 				break ;
 			}
 			case (4) :
 			{
-				strcpy(&*Pref, gprmc);
+				strcpy(Pref, gprmc);
 				break ;
 			}
 			default :
