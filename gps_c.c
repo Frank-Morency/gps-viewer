@@ -14,12 +14,12 @@ If you dont put any argument you have to select at runtime*/
 
 int		open_fd(void);
 void	set_port(int fd);
-void		menu(int input, char ref);
+void	menu(char *Pref);
 
 int	main(int argc, char *argv[])
 {
-	char	ref[100] = "";
-	int		input = 0;
+	char	ref[100] = " ";
+	char	*Pref = ref;
 	int		fd;
 	char	buf[100];
 	char	out[100];
@@ -34,7 +34,7 @@ int	main(int argc, char *argv[])
 	}
 	else
 	{
-		menu(input, *ref);
+		menu(Pref);
 	}
 	while (fd)
 	{
@@ -81,7 +81,8 @@ void	set_port(int fd)
 	cfsetspeed(&term, B4800);
 	tcsetattr(fd, TCSANOW, &term);
 }
-void menu(int input, char ref){
+void menu(char *Pref){
+	int		input = 0;
 	char	gpgga[] = "$GPGGA";
 	char	gpgsa[] = "$GPGSA";
 	char	gpgsv[] = "$GPGSV";
@@ -95,22 +96,22 @@ void menu(int input, char ref){
 		{
 			case (1) :
 			{
-				strcpy(&ref, gpgga);
+				strcpy(&*Pref, gpgga);
 				break ;
 			}
 			case (2) :
 			{
-				strcpy(&ref, gpgsa);
+				strcpy(&*Pref, gpgsa);
 				break ;
 			}
 			case (3) :
 			{
-				strcpy(&ref, gpgsv);
+				strcpy(&*Pref, gpgsv);
 				break ;
 			}
 			case (4) :
 			{
-				strcpy(&ref, gprmc);
+				strcpy(&*Pref, gprmc);
 				break ;
 			}
 			default :
