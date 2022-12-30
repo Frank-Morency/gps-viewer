@@ -83,8 +83,8 @@ void menu(char *Pref){
 	char	gprmc[] = "$GPRMC";
 	char	test[] = "ALL";
 
-	printf("1 for $GGPGA\n 2 for $GPGSA\n3 for $GPGSV\n4 for $GPRMC\n");
-	printf("Select sentence you want :(0 to display all.)\n");
+	printf(" 1 for $GGPGA\n 2 for $GPGSA\n 3 for $GPGSV\n 4 for $GPRMC\n");
+	printf(" Select sentence you want :(0 to display all.)\n");
 	scanf(" %d", &input);
 	switch (input)
 	{
