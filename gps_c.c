@@ -14,6 +14,7 @@ If you dont put any argument you have to select at runtime*/
 
 int		open_fd(void);
 void	set_port(int fd);
+void		menu(int input, char ref);
 
 int	main(int argc, char *argv[])
 {
@@ -22,48 +23,18 @@ int	main(int argc, char *argv[])
 	int		fd;
 	char	buf[100];
 	char	out[100];
-	char	gpgga[] = "$GPGGA";
-	char	gpgsa[] = "$GPGSA";
-	char	gpgsv[] = "$GPGSV";
-	char	gprmc[] = "$GPRMC";
-	char	test[] = "ALL";
+	
 
 	fd = open_fd();
 	set_port(fd);
+
 	if (argc == 2)
 	{
 		strcpy(ref, argv[1]);
 	}
 	else
 	{
-		printf("type 1 for $GGPGA\ntype 2 for $GPGSA\ntype 3 for $GPGSV\ntype 4 for $GPRMC\n");
-		printf("Select which data sentence you want to see:(0 to display everything.)\n");
-		scanf(" %d", &input);
-		switch (input)
-		{
-			case (1) :
-			{
-				strcpy(ref, gpgga);
-				break ;
-			}
-			case (2) :
-			{
-				strcpy(ref, gpgsa);
-				break ;
-			}
-			case (3) :
-			{
-				strcpy(ref, gpgsv);
-				break ;
-			}
-			case (4) :
-			{
-				strcpy(ref, gprmc);
-				break ;
-			}
-			default :
-				break ;
-		}
+		menu(input, *ref);
 	}
 	while (fd)
 	{
@@ -109,4 +80,40 @@ void	set_port(int fd)
 	tcgetattr(fd, &term);
 	cfsetspeed(&term, B4800);
 	tcsetattr(fd, TCSANOW, &term);
+}
+void menu(int input, char ref){
+	char	gpgga[] = "$GPGGA";
+	char	gpgsa[] = "$GPGSA";
+	char	gpgsv[] = "$GPGSV";
+	char	gprmc[] = "$GPRMC";
+	char	test[] = "ALL";
+
+	printf("type 1 for $GGPGA\ntype 2 for $GPGSA\ntype 3 for $GPGSV\ntype 4 for $GPRMC\n");
+		printf("Select which data sentence you want to see:(0 to display everything.)\n");
+		scanf(" %d", &input);
+		switch (input)
+		{
+			case (1) :
+			{
+				strcpy(&ref, gpgga);
+				break ;
+			}
+			case (2) :
+			{
+				strcpy(&ref, gpgsa);
+				break ;
+			}
+			case (3) :
+			{
+				strcpy(&ref, gpgsv);
+				break ;
+			}
+			case (4) :
+			{
+				strcpy(&ref, gprmc);
+				break ;
+			}
+			default :
+				break ;
+		}
 }
