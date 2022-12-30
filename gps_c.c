@@ -4,10 +4,13 @@
 #include <stdlib.h>
 #include <termios.h>
 #include <string.h>
-/*if you want to pipe 
+/*if you want to pipe all sentence:
+exemple: ./prog_name ALL | your_file.txt
 only one type of sentence run it as in:
-exemple: "name of prog" \$GPGGA
-this will only take $GPGGA sentence on pipe*/
+exemple: ./prog_name \$GPGGA | your_file.txt
+this will only take $GPGGA sentence on pipe.
+
+If you dont put any argument you have to select at runtime*/
 
 int		open_fd(void);
 void	set_port(int fd);

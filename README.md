@@ -5,6 +5,10 @@ Open /dev/ttyUSB0
 Configure port speed to 4800 bauds
 Read nema sentences and print them on screen (could also be piped to a file) 
 
-If you run the program without any argument, every sentence will show on screen
-if you want to print only one type of sentence run it as in exemple: "name of prog" \$GPGGA
-this will only show $GPGGA sentence on screen
+/*if you want to pipe all sentence:
+exemple: ./prog_name ALL | your_file.txt
+only one type of sentence run it as in:
+exemple: ./prog_name \$GPGGA | your_file.txt
+this will only take $GPGGA sentence on pipe.
+
+If you dont put any argument you have to select at runtime*/
