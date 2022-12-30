@@ -13,10 +13,17 @@ this will only take $GPGGA sentence on pipe.
 If you dont put any argument you have to select at runtime*/
 
 #define PORT_SPEED B4800
+#define PORT "/dev/ttyUSB0"
 
 int		open_fd(void);
 void	set_port(int fd);
 void	menu(char *Pref);
+void	parse(char	*out, char *Pref);
+float	kn_km(float knot);
+float	kn_mph(float knot);
+int		utc_loc(int utc);
+char	heading(float deg);
+float	m_f(float m);
 
 int	main(int argc, char *argv[])
 {
@@ -57,10 +64,10 @@ int	open_fd(void)
 {
 	int	fd;
 
-	fd = open("/dev/ttyUSB0", O_RDONLY | O_NOCTTY | O_SYNC);
+	fd = open(PORT, O_RDONLY | O_NOCTTY | O_SYNC);
 	if (fd == -1)
 	{
-		printf("/dev/ttyUSB0 unavailable. %d\n", fd);
+		printf("%s unavailable. %d\n",PORT , fd);
 		exit(0);
 	}
 	return (fd);
@@ -101,6 +108,75 @@ void menu(char *Pref){
 			strcpy(Pref, gprmc);
 			break ;
 		default :
+			strcpy(Pref, test); //not needed
 			break ;
 		}
+}
+
+void	parse(char	*out, char *Pref)
+{	// need to parse needed information (which sentences) else all
+	int	i = 0;
+	int	j = 0;
+	int	k = 0;
+	char *parsed[100];
+	while (out[i++] != '\0')
+	{
+		while(out[i++] != ',')
+		{
+			parsed[k][j] = out[i];
+			j++;
+		}
+		k++;
+		j = 0;
+	}
+	k = 0;
+	//put *out in an array splitted by coma?
+	//?struct array 0= char 1= int 2= int 3= float 4= char etc...?
+	printf("%s", parsed);
+}
+
+float	kn_km(float knot)
+{
+	return (knot * 1.852);
+}
+
+float	kn_mph(float knot)
+{
+	return (knot * 1.150779);
+}
+
+int		utc_loc(int utc)
+{
+	int local;
+	local = -5;
+	return (utc + local);
+}
+
+float	m_f(float m)
+{
+	return (m * 3.28084);
+}
+
+char	heading(float deg)
+{
+	char *dir[] = {"n", "ne", "e", "se", "s", "sw", "w", "nw"};
+	char direction;
+
+	if (deg == 0 || deg == 360)
+		direction = *dir[0];
+	else if (deg > 0 && deg < 90)
+		direction = *dir[1];
+	else if (deg == 90)
+		direction = *dir[2];
+	else if (deg > 90 && deg < 180)
+		direction = *dir[3];
+	else if (deg == 180)
+		direction = *dir[4];
+	else if (deg > 180 && deg < 270)
+		direction = *dir[5];
+	else if (deg == 270)
+		direction = *dir[6];
+	else if (deg > 270 && deg < 360)
+		direction = *dir[7];
+	return (direction);
 }
