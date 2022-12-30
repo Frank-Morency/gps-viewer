@@ -26,18 +26,13 @@ int	main(int argc, char *argv[])
 	char	buf[100];
 	char	out[100];
 	
-
 	fd = open_fd();
 	set_port(fd);
 
 	if (argc == 2)
-	{
 		strcpy(ref, argv[1]);
-	}
 	else
-	{
 		menu(Pref);
-	}
 	while (fd)
 	{
 		read(fd, &buf, 100);
@@ -45,15 +40,11 @@ int	main(int argc, char *argv[])
 		{	
 			strcpy(out, buf);
 			if (ref[0] != '$')
-			{
 				printf("%s", out);
-			}	
 			else
 			{
 				if (memcmp(buf, ref, 6) == 0)
-				{
 					printf("%s", out);
-				}
 			}
 			bzero(buf, 100);
 		}
@@ -92,32 +83,24 @@ void menu(char *Pref){
 	char	gprmc[] = "$GPRMC";
 	char	test[] = "ALL";
 
-	printf("type 1 for $GGPGA\ntype 2 for $GPGSA\ntype 3 for $GPGSV\ntype 4 for $GPRMC\n");
-		printf("Select which data sentence you want to see:(0 to display everything.)\n");
-		scanf(" %d", &input);
-		switch (input)
-		{
-			case (1) :
-			{
-				strcpy(Pref, gpgga);
-				break ;
-			}
-			case (2) :
-			{
-				strcpy(Pref, gpgsa);
-				break ;
-			}
-			case (3) :
-			{
-				strcpy(Pref, gpgsv);
-				break ;
-			}
-			case (4) :
-			{
-				strcpy(Pref, gprmc);
-				break ;
-			}
-			default :
-				break ;
+	printf("1 for $GGPGA\n 2 for $GPGSA\n3 for $GPGSV\n4 for $GPRMC\n");
+	printf("Select sentence you want :(0 to display all.)\n");
+	scanf(" %d", &input);
+	switch (input)
+	{
+		case (1) :
+			strcpy(Pref, gpgga);
+			break ;
+		case (2) :
+			strcpy(Pref, gpgsa);
+			break ;
+		case (3) :
+			strcpy(Pref, gpgsv);
+			break ;
+		case (4) :
+			strcpy(Pref, gprmc);
+			break ;
+		default :
+			break ;
 		}
 }
