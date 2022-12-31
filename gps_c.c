@@ -11,7 +11,8 @@ exemple: ./prog_name \$GPGGA | your_file.txt
 this will only take $GPGGA sentence on pipe.
 
 If you dont put any argument you have to select at runtime*/
-
+//better processing of argv for multiple sentence selection and to send selected data to file and/or screen
+//add a test mode or file mode to read raw data from file
 #define PORT_SPEED B4800
 #define PORT "/dev/ttyUSB0"
 
@@ -90,6 +91,9 @@ void set_port(int fd)
 
 void menu(char *Pref)
 {
+	//add a selection to save to file
+	//add a selection for parsed or raw
+	//add a selection for a kinda tui output
 	int input = 0;
 	char gpgga[] = "$GPGGA";
 	char gpgsa[] = "$GPGSA";
@@ -121,7 +125,10 @@ void menu(char *Pref)
 }
 
 void parse(char *out, char *Pref)
-{ // need to parse needed information (which sentences) else all
+{ 
+	//*** check to put substring in an array the proper way
+	//*** need to parse needed information (which sentences) else all
+	//add check first part of sentences to select parsing proper output
 	int i = 0;
 	int j = 0;
 	int k = 0;
@@ -182,6 +189,7 @@ float kn_mph(float knot)
 
 int utc_loc(int utc)
 {
+	//***add system local timezone
 	int local;
 	local = -5;
 	return (utc + local);
@@ -194,6 +202,7 @@ float m_f(float m)
 
 char heading(float deg)
 {
+	// ***add in-between heading
 	char *dir[] = {"n", "ne", "e", "se", "s", "sw", "w", "nw"};
 	char direction;
 
