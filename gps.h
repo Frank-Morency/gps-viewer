@@ -1,15 +1,17 @@
-#include<stdlib.h>
-#include<stdio.h>
-#include<fcntl.h>
-#include<unistd.h>
-#include<termios.h>
-#include<string.h>
+#ifndef GPS_H
+# define GPS_H
+# include<stdlib.h>
+# include<stdio.h>
+# include<fcntl.h>
+# include<unistd.h>
+# include<termios.h>
+# include<string.h>
 
 
 
-#define PORT_SPEED B4800
-#define PORT "/dev/ttyUSB0"
-#define TZ_LOCAL -5
+# define PORT_SPEED B4800
+# define PORT "/dev/ttyUSB0"
+# define TZ_LOCAL -5
 
 
 int open_fd(void);
@@ -236,3 +238,4 @@ int c_cnt(char const *s, char c)
 	}
 	return (cnt);
 }
+#endif
