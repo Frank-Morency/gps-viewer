@@ -18,12 +18,14 @@ If you dont put any argument you have to select at runtime*/
 int		open_fd(void);
 void	set_port(int fd);
 void	menu(char *Pref);
-void	parse(char	*out, char *Pref);
+void	parse(char *out, char *Pref);
 float	kn_km(float knot);
 float	kn_mph(float knot);
-int		utc_loc(int utc);
+int	utc_loc(int utc);
 char	heading(float deg);
 float	m_f(float m);
+static int	w_cnt(char const *s, char c);
+int	c_cnt(char const *s, char c);
 
 int	main(int argc, char *argv[])
 {
@@ -47,7 +49,11 @@ int	main(int argc, char *argv[])
 		{	
 			strcpy(out, buf);
 			if (ref[0] != '$')
+			{
 				printf("%s", out);
+//				parse(out, Pref);
+//				exit(0);
+			}
 			else
 			{
 				if (memcmp(buf, ref, 6) == 0)
@@ -113,26 +119,46 @@ void menu(char *Pref){
 		}
 }
 
-void	parse(char	*out, char *Pref)
+void	parse(char *out, char *Pref)
 {	// need to parse needed information (which sentences) else all
 	int	i = 0;
 	int	j = 0;
 	int	k = 0;
-	char *parsed[100];
-	while (out[i++] != '\0')
+	char skip = ' ';
+	char **parsed;
+	printf("parse\n");
+	parsed = (char **)malloc(sizeof(char *) * w_cnt(out, ',') + 1);
+	if (!parsed){
+		printf("Memory not allocated.\n");
+		exit(0);
+	}
+	while (out[i] != '\0' && out[i] != '\n' && i <= 100)
 	{
-		while(out[i++] != ',')
+		
+		while(out[i] != ',' && out[i] != '\n' && out[i] != '\0')
 		{
-			parsed[k][j] = out[i];
+			parsed[j] = (char *)malloc(sizeof(char) * c_cnt(&out[i], ',') + 1);
+			if (!parsed[j]){
+				printf("oups!");
+				exit(0);
+			}
+			strncpy(parsed[j], &out[i], (c_cnt(out + i, ',') + 1));
+			//printf("%s", *parsed);
+			i++;
 			j++;
 		}
 		k++;
+		i++;
+		
 		j = 0;
+		printf("%d\t", k);
+		printf("OUT %s\n", *parsed);
 	}
-	k = 0;
+	//k = 0;
 	//put *out in an array splitted by coma?
 	//?struct array 0= char 1= int 2= int 3= float 4= char etc...?
-	printf("%s", parsed);
+	printf("%s-%s\n", parsed[0], *parsed);
+	free(parsed);
 }
 
 float	kn_km(float knot)
@@ -179,4 +205,37 @@ char	heading(float deg)
 	else if (deg > 270 && deg < 360)
 		direction = *dir[7];
 	return (direction);
+}
+
+static int	w_cnt(char const *s, char c)
+{
+	int	word;
+	int	i;
+
+	i = 0;
+	word = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] != c)
+		{
+			word++;
+			while (s[i] != c && s[i] != '\0')
+				i++;
+		}
+		i++;
+	}
+	return (word);
+}
+
+int	c_cnt(char const *s, char c)
+{
+	int	cnt;
+
+	cnt = 0;
+	while (*s != c && *s != '\0')
+	{
+		cnt++;
+		s++;
+	}
+	return (cnt);
 }
