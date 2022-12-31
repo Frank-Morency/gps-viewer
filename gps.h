@@ -91,7 +91,7 @@ void parse(char *out, char *Pref)
     int i = 0;
     char c[] = {',','*'};
     int sub = word_cnt(out, c);
-    printf("%d\n", sub);
+    //printf("%d\n", sub);
 
 }
 /*
@@ -250,7 +250,7 @@ static int word_cnt(char const *s, char *c)
 int char_cnt(char const *s, char *c)
 {
 	int cnt;
-
+	
 	cnt = 0;
 	while (*s != c[0] && *s != '\0')
 	{
