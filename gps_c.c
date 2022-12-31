@@ -221,8 +221,11 @@ static int	w_cnt(char const *s, char c)
 			word++;
 			while (s[i] != c && s[i] != '\0')
 				i++;
+			if (s[i] == c)
+				continue ;
 		}
-		i++;
+		else
+			i++;
 	}
 	return (word);
 }
