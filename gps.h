@@ -23,8 +23,8 @@ float kn_mph(float knot);
 int utc_loc(int utc);
 char heading(float deg);
 float m_f(float m);
-static int w_cnt(char const *s, char c);
-int c_cnt(char const *s, char c);
+static int word_cnt(char const *s, char c);
+int char_cnt(char const *s, char c);
 
 
 int open_fd(void)
@@ -100,7 +100,7 @@ void parse(char *out, char *Pref)
 	int k = 0;
 	char skip = ' ';
 	char tmp_buf[16];
-	char **parsed = (char **)malloc(sizeof(char *) * w_cnt(out, ','));
+	char **parsed = (char **)malloc(sizeof(char *) * word_cnt(out, ','));
 	if (!parsed)
 	{
 		printf("Memory not allocated.\n");
@@ -111,7 +111,7 @@ void parse(char *out, char *Pref)
 
 		while (out[i] != ',' && out[i] != '\n' && out[i] != '\0')
 		{
-			parsed[j] = (char *)malloc(sizeof(char) * c_cnt(&out[i], ',') + 1);
+			parsed[j] = (char *)malloc(sizeof(char) * char_cnt(&out[i], ',') + 1);
 			if (!parsed[j])
 			{
 				printf("oups!");
@@ -119,7 +119,7 @@ void parse(char *out, char *Pref)
 			}
 			tmp_buf[j] = out[i];
 			tmp_buf[j + 1] = '\0';
-			strncpy(parsed[j], &out[i], (c_cnt(out + i, ',')));
+			strncpy(parsed[j], &out[i], (char_cnt(out + i, ',')));
 			
 			i++;
 			j++;
@@ -203,7 +203,7 @@ char heading(float deg)
 	return (direction);
 }
 
-static int w_cnt(char const *s, char c)
+static int word_cnt(char const *s, char c)
 {
 	int word;
 	int i;
@@ -226,7 +226,7 @@ static int w_cnt(char const *s, char c)
 	return (word);
 }
 
-int c_cnt(char const *s, char c)
+int char_cnt(char const *s, char c)
 {
 	int cnt;
 
