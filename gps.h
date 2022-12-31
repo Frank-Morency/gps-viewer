@@ -23,9 +23,8 @@ float kn_mph(float knot);
 int utc_loc(int utc);
 char heading(float deg);
 float m_f(float m);
-static int word_cnt(char const *s, char c);
-int char_cnt(char const *s, char c);
-
+static int word_cnt(char const *s, char *c);
+int char_cnt(char const *s, char *c);
 
 int open_fd(void)
 {
@@ -87,6 +86,12 @@ void menu(char *Pref)
 void parse(char *out, char *Pref)
 {
 	//rewrite parse func
+    int len = strlen(out);
+    int count = 0;
+    int i = 0;
+    char c[] = ",*";
+    int sub = word_cnt(out, c);
+    printf("%d\n", sub);
 
 }
 /*
@@ -203,7 +208,7 @@ char heading(float deg)
 	return (direction);
 }
 
-static int word_cnt(char const *s, char c)
+static int word_cnt(char const *s, char *c)
 {
 	int word;
 	int i;
@@ -212,26 +217,33 @@ static int word_cnt(char const *s, char c)
 	word = 0;
 	while (s[i] != '\0')
 	{
-		if (s[i] != c)
+		if (s[i] != c[0] && s[i] != c[1])
 		{
-			word++;
-			while (s[i] != c && s[i] != '\0')
+			//word++;
+			while (s[i] != c[0] && s[i] != c[1] && s[i] != '\0')
 				i++;
-			if (s[i] == c)
-				continue;
+			if (s[i] == c[0] || s[i] == c[1])
+            {
+                word++;
+                i++;
+				//continue;
+            }
 		}
 		else
+        {
 			i++;
+            word++;
+        }
 	}
 	return (word);
 }
 
-int char_cnt(char const *s, char c)
+int char_cnt(char const *s, char *c)
 {
 	int cnt;
 
 	cnt = 0;
-	while (*s != c && *s != '\0')
+	while (*s != c[0] && *s != '\0')
 	{
 		cnt++;
 		s++;
