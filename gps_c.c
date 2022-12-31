@@ -15,6 +15,7 @@ If you dont put any argument you have to select at runtime*/
 //add a test mode or file mode to read raw data from file
 #define PORT_SPEED B4800
 #define PORT "/dev/ttyUSB0"
+#define TZ_LOCAL -5
 
 int open_fd(void);
 void set_port(int fd);
@@ -191,7 +192,7 @@ int utc_loc(int utc)
 {
 	//***add system local timezone
 	int local;
-	local = -5;
+	local = TZ_LOCAL;
 	return (utc + local);
 }
 
@@ -202,26 +203,41 @@ float m_f(float m)
 
 char heading(float deg)
 {
-	// ***add in-between heading
-	char *dir[] = {"n", "ne", "e", "se", "s", "sw", "w", "nw"};
+	char *dir[] = {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"};
 	char direction;
 
 	if (deg == 0 || deg == 360)
 		direction = *dir[0];
-	else if (deg > 0 && deg < 90)
+	else if (deg > 0 && deg < 45)
 		direction = *dir[1];
-	else if (deg == 90)
+	else if (deg == 45)
 		direction = *dir[2];
-	else if (deg > 90 && deg < 180)
+	else if (deg > 45 && deg < 90)
 		direction = *dir[3];
-	else if (deg == 180)
+	else if (deg == 90)
 		direction = *dir[4];
-	else if (deg > 180 && deg < 270)
+	else if (deg > 90 && deg < 135)
 		direction = *dir[5];
-	else if (deg == 270)
+	else if (deg == 135)
 		direction = *dir[6];
-	else if (deg > 270 && deg < 360)
+	else if (deg > 135 && deg < 180)
 		direction = *dir[7];
+	else if (deg == 180)
+		direction = *dir[8];
+	else if (deg > 180 && deg < 225)
+		direction = *dir[9];
+	else if (deg == 225)
+		direction = *dir[10];
+	else if (deg > 225 && deg < 270)
+		direction = *dir[11];
+	else if (deg == 270)
+		direction = *dir[12];
+	else if (deg > 270 && deg < 315)
+		direction = *dir[13];
+	else if (deg == 315)
+		direction = *dir[14];
+	else if (deg > 315 && deg < 360)
+		direction = *dir[15];
 	return (direction);
 }
 
