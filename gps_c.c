@@ -51,8 +51,8 @@ int main(int argc, char *argv[])
 			if (ref[0] != '$')
 			{
 				printf("%s", out);
-				//parse(out, Pref);
-				//				exit(0);
+//				parse(out, Pref);
+//				exit(0);
 			}
 			else
 			{
@@ -126,9 +126,8 @@ void parse(char *out, char *Pref)
 	int j = 0;
 	int k = 0;
 	char skip = ' ';
-	char **parsed;
-	printf("parse\n");
-	parsed = (char **)malloc(sizeof(char *) * w_cnt(out, ',') + 1);
+	char tmp_buf[16];
+	char **parsed = (char **)malloc(sizeof(char *) * w_cnt(out, ','));
 	if (!parsed)
 	{
 		printf("Memory not allocated.\n");
@@ -145,21 +144,25 @@ void parse(char *out, char *Pref)
 				printf("oups!");
 				exit(0);
 			}
+			tmp_buf[j] = out[i];
+			tmp_buf[j + 1] = '\0';
 			strncpy(parsed[j], &out[i], (c_cnt(out + i, ',')));
+			
 			i++;
 			j++;
 		}
-		//Getting closer with following if//
-		if (j == 0)
-			*parsed[j] = '\0';
+		
+		if (out[i - 1] == ','){
+				tmp_buf[j] = '\0';
+				*parsed[j] = '\0';
+				j++;
+		}
 		//printf("i=%d, j=%d, k=%d\t",i, j, k);
+		printf("tmp buf %s\t", tmp_buf);
 		printf("%s\n", &**parsed);
-		printf("OUT %s\n", *parsed);
 		k++;
 		i++;
 		j = 0;
-		//printf("%d\t", k);
-		//printf("OUT %s\n", *parsed);
 	}
 	// put *out in an array splitted by coma?
 	//?struct array 0= char 1= int 2= int 3= float 4= char etc...?
