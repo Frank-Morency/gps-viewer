@@ -165,16 +165,13 @@ void parse(char *out, char *Pref)
 				*parsed[j] = '\0';
 				j++;
 		}
-		//printf("i=%d, j=%d, k=%d\t",i, j, k);
 		printf("tmp buf %s\t", tmp_buf);
 		printf("%s\n", &**parsed);
 		k++;
 		i++;
 		j = 0;
 	}
-	// put *out in an array splitted by coma?
-	//?struct array 0= char 1= int 2= int 3= float 4= char etc...?
-	//printf("%s-%s\n", parsed[0], *parsed);
+
 	free(parsed);
 }
 
