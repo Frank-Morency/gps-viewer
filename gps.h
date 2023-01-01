@@ -11,7 +11,7 @@
 
 # define PORT_SPEED B4800
 # define PORT "/dev/ttyUSB0"
-# define TZ_LOCAL -50000
+# define TZ_LOCAL -50000.0
 
 
 int open_fd(void);
@@ -20,7 +20,7 @@ void menu(char *Pref);
 void parse(char *out, char *Pref);
 float kn_km(float knot);
 float kn_mph(float knot);
-int utc_loc(float utc);
+double utc_loc(double utc);
 char heading(float deg);
 float m_f(float m);
 static int word_cnt(char const *s, char *c);
@@ -101,12 +101,12 @@ void parse(char *out, char *Pref)
 	//*** need to parse needed information (which sentences) else all
 	//add check first part of sentences to select parsing proper output
 	char **to_parse;
-	int i = -1;
+	int i = 0;
 	int j = 0;
 	int k = 0;
 	//char skip = ' ';
 	char tmp_buf[16];
-	char test[15];
+	char test[20];
 	char c[] = {',','*'};
 
 	to_parse = (char **)malloc(sizeof(char *) * word_cnt(out, c) + 1);
@@ -116,7 +116,7 @@ void parse(char *out, char *Pref)
 		exit(0);
 	}
 	//while (out[i] != '\0' && out[i] != '\n' && i <= 100)
-	while (out[++i])
+	while (out[i])
 	{
 
 		while (out[i] != ',' && out[i] != '*' && out[i] != '\n' && out[i] != '\0')
@@ -129,36 +129,34 @@ void parse(char *out, char *Pref)
 			}
 			//tmp_buf[j] = out[i];
 			//tmp_buf[j + 1] = '\0';
-			strncpy(to_parse[j++], &out[i], (char_cnt(out + i, c) + 1 ));
+			strncpy(to_parse[j++], &out[i], (char_cnt(out + i, c)));
 			while (out[i] != ',' && out[i] != '*' && out[i] != '\n' && out[i] != '\0')
 				i++;
 			//j++;
 		}
-		to_parse[j++] = (NULL);
+		//to_parse[j++] = (NULL);
 		//if (out[i - 1] == ',' || out[i -1] == '*'){
 				//tmp_buf[j] = '\0';
 		//		to_parse[j++] = (NULL);
 				//j++;
 		//}
 		//printf("tmp buf %s\t", tmp_buf);
-		printf("%s\n", *to_parse);
+		//printf("%s\n", *to_parse);
+
 		k++;
 		i++;
 		//j = 0;
 	}
 	//here it's splited and ready to translate
+	//may need to had char in empty space or check
 	if (memcmp(&to_parse[0][0], Pref, 6) == 0)
 	{
-		int w = 0;
-		while (test[w++] != '\0');
-		{
-			test[w] = to_parse[1][w];
-			w++;
-		}
-		//printf("t_out %f\n", t_out);
-		printf("Title: %s ", to_parse[0]);
-		printf("Local Time: %f\n ", atof(test));
-		//printf("Heading %s\n", &*to_parse[7]);
+		strcpy(test, to_parse[1]);
+		printf("test %s\n", test);
+		
+		printf("Title: %s \n", to_parse[0]);
+		printf("Local Time: %.0lf\n ", utc_loc(atof(test)));
+		printf("Heading %s\n", to_parse[7]);
 	}
 
 	free(to_parse); // func free parsed[j]
@@ -174,12 +172,12 @@ float kn_mph(float knot)
 	return (knot * 1.150779);
 }
 
-int utc_loc(float utc)
+double utc_loc(double utc)
 {
 	//***add system local timezone
-	int local;
-	local = TZ_LOCAL;
-	return (utc + local);
+	double local;
+	local = (utc + TZ_LOCAL);
+	return (local);
 }
 
 float m_f(float m)
@@ -233,8 +231,8 @@ static int word_cnt(char const *s, char *c)
 {
 	int word;
 	int i;
-	//char temp[40];
-	//int j = 0;		//test
+	char temp[40];
+	int j = 0;		//test
 
 	i = 0;
 	word = 0;
@@ -245,10 +243,10 @@ static int word_cnt(char const *s, char *c)
 			//word++;
 			while (s[i] != c[0] && s[i] != c[1] && s[i] != '\0')
 			{
-				//temp[j++] = s[i];
+				temp[j++] = s[i];
 				i++;
 			}
-			if (s[i] == c[0] || s[i] == c[1])
+			if (s[i] == c[0] || s[i] == c[1] || s[i] == '\n')
             {
                 word++;
                 i++;
@@ -261,11 +259,11 @@ static int word_cnt(char const *s, char *c)
 			i++;
             word++;
         }
-		//printf("Parse\t%s\n", temp); // test
-		//j = 0;						//test
-		//bzero(temp, 40);			//test
+		printf("w_cnt: \t%s\n", temp); // test
+		j = 0;						//test
+		bzero(temp, 40);			//test
 	}
-	//printf("%d\n", word);
+	printf("number of word: %d\n", word);
 	return (word);
 }
 
