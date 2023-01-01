@@ -82,19 +82,7 @@ void menu(char *Pref)
 		break;
 	}
 }
-/*
-void parse(char *out, char *Pref)
-{
-	//rewrite parse func
-    int len = strlen(out);
-    int count = 0;
-    int i = 0;
-    char c[] = {',','*'};
-    int sub = word_cnt(out, c);
-	printf("%d\n", sub);
 
-}
-*/
 void parse(char *out, char *Pref)
 { 
 	//*** check to put substring in an array the proper way
@@ -104,8 +92,6 @@ void parse(char *out, char *Pref)
 	int i = 0;
 	int j = 0;
 	int k = 0;
-	//char skip = ' ';
-	char tmp_buf[16];
 	char conv_time[40];
 	char conv_heading[4];
 	char c[] = {',','*'};
@@ -128,28 +114,14 @@ void parse(char *out, char *Pref)
 				printf("oups!");
 				exit(0);
 			}
-			//tmp_buf[j] = out[i];
-			//tmp_buf[j + 1] = '\0';
 			strncpy(to_parse[j++], &out[i], (char_cnt(out + i, c)));
 			while (out[i] != ',' && out[i] != '*' && out[i] != '\n' && out[i] != '\0')
 				i++;
-			//j++;
 		}
-		//to_parse[j++] = (NULL);
-		//if (out[i - 1] == ',' || out[i -1] == '*'){
-				//tmp_buf[j] = '\0';
-		//		to_parse[j++] = (NULL);
-				//j++;
-		//}
-		//printf("tmp buf %s\t", tmp_buf);
-		//printf("%s\n", *to_parse);
-
 		k++;
 		i++;
-		//j = 0;
 	}
 	//here it's splited and ready to translate
-	//may need to had char in empty space or check
 	if (memcmp(&to_parse[0][0], Pref, 6) == 0)
 	{
 
@@ -166,7 +138,7 @@ void parse(char *out, char *Pref)
 		printf("Heading %s %s\n", to_parse[8], heading(atof(conv_heading)));
 	}
 
-	free(to_parse); // func free parsed[j]
+	free(to_parse); // func free to_parse[j]
 }
 
 float kn_km(float knot)
@@ -193,7 +165,7 @@ float m_f(float m)
 char *heading(float deg)
 {
 	char *dir[] = {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"};
-	char *direction;
+	char *direction = NULL;
 
 	if (deg == 0 || deg == 360)
 		direction = dir[0];
@@ -227,8 +199,6 @@ char *heading(float deg)
 		direction = dir[14];
 	else if (deg > 315 && deg < 360)
 		direction = dir[15];
-	//printf("%d\n", direction);
-	//printf("%f\t%s\n", deg, dir[0]);
 	return (direction);
 }
 
