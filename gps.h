@@ -212,8 +212,8 @@ static int word_cnt(char const *s, char *c)
 {
 	int word;
 	int i;
-	char temp[40];
-	int j = 0;		//test
+	//char temp[40];
+	//int j = 0;		//test
 
 	i = 0;
 	word = 0;
@@ -224,7 +224,7 @@ static int word_cnt(char const *s, char *c)
 			//word++;
 			while (s[i] != c[0] && s[i] != c[1] && s[i] != '\0')
 			{
-				temp[j++] = s[i];
+				//temp[j++] = s[i];
 				i++;
 			}
 			if (s[i] == c[0] || s[i] == c[1])
@@ -240,11 +240,11 @@ static int word_cnt(char const *s, char *c)
 			i++;
             word++;
         }
-		printf("Parse\t%s\n", temp); // test
-		j = 0;						//test
-		bzero(temp, 40);			//test
+		//printf("Parse\t%s\n", temp); // test
+		//j = 0;						//test
+		//bzero(temp, 40);			//test
 	}
-	printf("%d\n", word);
+	//printf("%d\n", word);
 	return (word);
 }
 
