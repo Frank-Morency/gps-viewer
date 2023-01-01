@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 			if (ref[0] != '$')
 			{
 				printf("%s", out);
-//			parse(out, Pref);
+//				parse(out, Pref);
 //				exit(0);
 			}
 			else

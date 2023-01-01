@@ -103,7 +103,7 @@ void parse(char *out, char *Pref)
 	int i = 0;
 	int j = 0;
 	int k = 0;
-	char skip = ' ';
+	//char skip = ' ';
 	char tmp_buf[16];
 	char c[] = {',','*'};
 	char **parsed = (char **)malloc(sizeof(char *) * word_cnt(out, c));
@@ -136,14 +136,22 @@ void parse(char *out, char *Pref)
 				*parsed[j] = '\0';
 				j++;
 		}
-		printf("tmp buf %s\t", tmp_buf);
+		//printf("tmp buf %s\t", tmp_buf);
 		printf("%s\n", &**parsed);
 		k++;
 		i++;
 		j = 0;
 	}
+	//here it's splited and ready to translate
+	if (memcmp(&parsed[0][0], Pref, 6) == 0)
+	{
+		printf("Title: %s ", &parsed[0][0]);
+		printf("Local Time: %d ", utc_loc(atoi(&parsed[1][0])));
+		printf("speed: %f ", kn_km(atof(&parsed[7][0])));
+		printf("Heading %s\n", heading(atof(&parsed[8][0])));
+	}
 
-	free(parsed);
+	free(parsed); // func free parsed[j]
 }
 
 float kn_km(float knot)
