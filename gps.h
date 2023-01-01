@@ -11,7 +11,7 @@
 
 # define PORT_SPEED B4800
 # define PORT "/dev/ttyUSB0"
-# define TZ_LOCAL 50000
+# define TZ_LOCAL -50000.0
 
 
 int open_fd(void);
@@ -20,7 +20,7 @@ void menu(char *Pref);
 void parse(char *out, char *Pref);
 float kn_km(float knot);
 float kn_mph(float knot);
-float utc_loc(float utc);
+double utc_loc(double utc);
 char *heading(float deg);
 float m_f(float m);
 static int word_cnt(char const *s, char *c);
@@ -106,8 +106,8 @@ void parse(char *out, char *Pref)
 	int k = 0;
 	//char skip = ' ';
 	char tmp_buf[16];
-	char test[20];
-	char test2[4];
+	char conv_time[40];
+	char conv_heading[4];
 	char c[] = {',','*'};
 
 	to_parse = (char **)malloc(sizeof(char *) * word_cnt(out, c) + 1);
@@ -152,14 +152,18 @@ void parse(char *out, char *Pref)
 	//may need to had char in empty space or check
 	if (memcmp(&to_parse[0][0], Pref, 6) == 0)
 	{
-		strcpy(test, to_parse[1]);
-		printf("test %s\n", test);
-		
-		strcpy(test2, to_parse[8]);
-		
+
+		//To check need to be printed in order... else mixed up (index 2 may end up 8
+		//when printf are all togheter at the end ???
 		printf("Title: %s \n", to_parse[0]);
-		printf("Local Time: %.0lf\n ", utc_loc(atof(test)));
-		printf("Heading %s %s\n", to_parse[8], heading(atof(test2)));
+
+		strcpy(conv_time, to_parse[1]); //used for utc_loc
+		//printf("time %s\n", conv_time);
+		printf("Local Time: %.0lf\n", utc_loc(atof(conv_time)));
+
+		strcpy(conv_heading, to_parse[8]); //used for heading
+		//printf("%s deg\n", conv_heading);
+		printf("Heading %s %s\n", to_parse[8], heading(atof(conv_heading)));
 	}
 
 	free(to_parse); // func free parsed[j]
@@ -175,12 +179,10 @@ float kn_mph(float knot)
 	return (knot * 1.150779);
 }
 
-float utc_loc(float utc)
+double utc_loc(double utc)
 {
 	//***add system local timezone
-	float local;
-	local = (utc - TZ_LOCAL);
-	return (local);
+		return (TZ_LOCAL + utc);
 }
 
 float m_f(float m)
