@@ -11,7 +11,7 @@
 
 # define PORT_SPEED B4800
 # define PORT "/dev/ttyUSB0"
-# define TZ_LOCAL -50000.0
+# define TZ_LOCAL 50000
 
 
 int open_fd(void);
@@ -20,8 +20,8 @@ void menu(char *Pref);
 void parse(char *out, char *Pref);
 float kn_km(float knot);
 float kn_mph(float knot);
-double utc_loc(double utc);
-char heading(float deg);
+float utc_loc(float utc);
+char *heading(float deg);
 float m_f(float m);
 static int word_cnt(char const *s, char *c);
 int char_cnt(char const *s, char *c);
@@ -107,6 +107,7 @@ void parse(char *out, char *Pref)
 	//char skip = ' ';
 	char tmp_buf[16];
 	char test[20];
+	char test2[4];
 	char c[] = {',','*'};
 
 	to_parse = (char **)malloc(sizeof(char *) * word_cnt(out, c) + 1);
@@ -154,9 +155,11 @@ void parse(char *out, char *Pref)
 		strcpy(test, to_parse[1]);
 		printf("test %s\n", test);
 		
+		strcpy(test2, to_parse[8]);
+		
 		printf("Title: %s \n", to_parse[0]);
 		printf("Local Time: %.0lf\n ", utc_loc(atof(test)));
-		printf("Heading %s\n", to_parse[7]);
+		printf("Heading %s %s\n", to_parse[8], heading(atof(test2)));
 	}
 
 	free(to_parse); // func free parsed[j]
@@ -172,11 +175,11 @@ float kn_mph(float knot)
 	return (knot * 1.150779);
 }
 
-double utc_loc(double utc)
+float utc_loc(float utc)
 {
 	//***add system local timezone
-	double local;
-	local = (utc + TZ_LOCAL);
+	float local;
+	local = (utc - TZ_LOCAL);
 	return (local);
 }
 
@@ -185,45 +188,45 @@ float m_f(float m)
 	return (m * 3.28084);
 }
 
-char heading(float deg)
+char *heading(float deg)
 {
 	char *dir[] = {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"};
-	char direction;
+	char *direction;
 
 	if (deg == 0 || deg == 360)
-		direction = *dir[0];
+		direction = dir[0];
 	else if (deg > 0 && deg < 45)
-		direction = *dir[1];
+		direction = dir[1];
 	else if (deg == 45)
-		direction = *dir[2];
+		direction = dir[2];
 	else if (deg > 45 && deg < 90)
-		direction = *dir[3];
+		direction = dir[3];
 	else if (deg == 90)
-		direction = *dir[4];
+		direction = dir[4];
 	else if (deg > 90 && deg < 135)
-		direction = *dir[5];
+		direction = dir[5];
 	else if (deg == 135)
-		direction = *dir[6];
+		direction = dir[6];
 	else if (deg > 135 && deg < 180)
-		direction = *dir[7];
+		direction = dir[7];
 	else if (deg == 180)
-		direction = *dir[8];
+		direction = dir[8];
 	else if (deg > 180 && deg < 225)
-		direction = *dir[9];
+		direction = dir[9];
 	else if (deg == 225)
-		direction = *dir[10];
+		direction = dir[10];
 	else if (deg > 225 && deg < 270)
-		direction = *dir[11];
+		direction = dir[11];
 	else if (deg == 270)
-		direction = *dir[12];
+		direction = dir[12];
 	else if (deg > 270 && deg < 315)
-		direction = *dir[13];
+		direction = dir[13];
 	else if (deg == 315)
-		direction = *dir[14];
+		direction = dir[14];
 	else if (deg > 315 && deg < 360)
-		direction = *dir[15];
-	printf("%d\n", direction);
-	printf("%f\t%s\n", deg, dir[0]);
+		direction = dir[15];
+	//printf("%d\n", direction);
+	//printf("%f\t%s\n", deg, dir[0]);
 	return (direction);
 }
 
