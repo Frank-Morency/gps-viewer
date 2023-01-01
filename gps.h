@@ -82,7 +82,7 @@ void menu(char *Pref)
 		break;
 	}
 }
-
+/*
 void parse(char *out, char *Pref)
 {
 	//rewrite parse func
@@ -91,10 +91,10 @@ void parse(char *out, char *Pref)
     int i = 0;
     char c[] = {',','*'};
     int sub = word_cnt(out, c);
-    //printf("%d\n", sub);
+	printf("%d\n", sub);
 
 }
-/*
+*/
 void parse(char *out, char *Pref)
 { 
 	//*** check to put substring in an array the proper way
@@ -105,7 +105,8 @@ void parse(char *out, char *Pref)
 	int k = 0;
 	char skip = ' ';
 	char tmp_buf[16];
-	char **parsed = (char **)malloc(sizeof(char *) * word_cnt(out, ','));
+	char c[] = {',','*'};
+	char **parsed = (char **)malloc(sizeof(char *) * word_cnt(out, c));
 	if (!parsed)
 	{
 		printf("Memory not allocated.\n");
@@ -114,9 +115,9 @@ void parse(char *out, char *Pref)
 	while (out[i] != '\0' && out[i] != '\n' && i <= 100)
 	{
 
-		while (out[i] != ',' && out[i] != '\n' && out[i] != '\0')
+		while (out[i] != ',' && out[i] != '*' && out[i] != '\n' && out[i] != '\0')
 		{
-			parsed[j] = (char *)malloc(sizeof(char) * char_cnt(&out[i], ',') + 1);
+			parsed[j] = (char *)malloc(sizeof(char) * char_cnt(&out[i], c) + 1);
 			if (!parsed[j])
 			{
 				printf("oups!");
@@ -124,13 +125,13 @@ void parse(char *out, char *Pref)
 			}
 			tmp_buf[j] = out[i];
 			tmp_buf[j + 1] = '\0';
-			strncpy(parsed[j], &out[i], (char_cnt(out + i, ',')));
+			strncpy(parsed[j], &out[i], (char_cnt(out + i, c)));
 			
 			i++;
 			j++;
 		}
 		
-		if (out[i - 1] == ','){
+		if (out[i - 1] == ',' || out[i -1] == '*'){
 				tmp_buf[j] = '\0';
 				*parsed[j] = '\0';
 				j++;
@@ -144,7 +145,7 @@ void parse(char *out, char *Pref)
 
 	free(parsed);
 }
-*/
+
 float kn_km(float knot)
 {
 	return (knot * 1.852);
@@ -253,7 +254,7 @@ int char_cnt(char const *s, char *c)
 	int cnt;
 
 	cnt = 0;
-	while (*s != c[0] && *s != '\0')
+	while (*s != c[0] && *s != '*' && *s != '\0')
 	{
 		cnt++;
 		s++;
