@@ -244,13 +244,14 @@ static int word_cnt(char const *s, char *c)
 		j = 0;						//test
 		bzero(temp, 40);			//test
 	}
+	printf("%d\n", word);
 	return (word);
 }
 
 int char_cnt(char const *s, char *c)
 {
 	int cnt;
-	
+
 	cnt = 0;
 	while (*s != c[0] && *s != '\0')
 	{

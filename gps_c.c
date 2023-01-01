@@ -7,7 +7,7 @@
 #include "gps.h"
 /*if you want to pipe all sentence:
 exemple: ./prog_name ALL | your_file.txt
-only one type of sentence run it as in:
+For only one type of sentence run it as in:
 exemple: ./prog_name \$GPGGA | your_file.txt
 this will only take $GPGGA sentence on pipe.
 
@@ -46,7 +46,10 @@ int main(int argc, char *argv[])
 			else
 			{
 				if (memcmp(buf, ref, 6) == 0)
+				{
 					printf("%s", out);
+//					parse(out, Pref);
+				}	
 			}
 			bzero(buf, 100);
 		}
