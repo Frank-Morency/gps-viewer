@@ -283,21 +283,107 @@ int char_cnt(char const *s, char *c)
 
 void	gpgsv(char **input)
 {
+	//if more than 1 sentences ??? think about what to do ???
+	char received[100];
+	int i = 0;
+	int j = 0;
+	char	num_sent;
+	char	num_this;
+	char	num_sat;
+	char	sat_num;
+	char	sat_elev;
+	char	sat_azimuth;
+	char	sat_sn;
+	
+
+	while (input != NULL)
+	{
+		//To check need to be printed in order... else mixed up (index 2 may end up 8
+		//when printf are all togheter at the end ???
+		printf("Title: %s \n", input[0]);
+		strcpy(num_sent, input[1]); //used for num of sentence in sequence
+		strcpy(num_this, input[2]); //number of this sentence
+		strcpy(num_sat, input[3]); //number of sat total
+		strcpy(sat_num, input[4]); //no of the sat
+		strcpy(sat_elev, input[5]);
+		strcpy(sat_azimuth, input[6]);
+		strcpy(sat_sn, input[7]);
+
+	}   
 
 }
 
 void	gpgsa(char **input)
 {
-
+char received[100];
+	int i = 0;
+	int j = 0;
+	char	fix_typ;
+	char	fix_a;
+	char	sat_id; //max 12
+	char	pdop;
+	char	hdop;
+	char	vdop;
+ 
 }
 
 void	gpgga(char **input)
 {
+	char received[100];
+	int i = 0;
+	int j = 0;
+	char	conv_time;
+	char	conv_lat;
+	char	conv_long;
+	char	conv_fix;
+	char	conv_num_sat;
+	char	hdop;
+	char	conv_alti;
+	char	height_mean_sea;
+	
+
+	while (input != NULL)
+	{
+		printf("test");
+	}   
 
 }
 
 void	gprmc(char **input)
 {
+	char received[100];
+	int i = 0;
+	int j = 0;
+	char	conv_time;
+	char	alert;
+	char	conv_lat;
+	char	conv_long;
+	char	conv_speed;
+	char	conv_heading;
+	char	date_gps;
+	char	mag_decl;
+	
+
+	while (input != NULL)
+	{
+		//To check need to be printed in order... else mixed up (index 2 may end up 8
+		//when printf are all togheter at the end ???
+		printf("Title: %s \n", input[0]);
+		strcpy(conv_time, input[1]); //used for utc_loc
+		
+		printf("Local Time: %.0lf\n", utc_loc(atof(conv_time)));
+		if (*input[7] != ' ')
+		{
+			strcpy(conv_speed, input[7]); //used for speed km
+			printf("Speed: %.2f MPH\n", kn_mph(atof(conv_speed)));
+		}
+		if (*input[2] == 'A')
+		{
+			strcpy(conv_heading, input[8]); //used for heading
+		//printf("%s deg\n", conv_heading);
+			printf("Heading: %.2f %s\n", atof(conv_heading), heading(atof(conv_heading)));
+		}
+	}   
 
 }
 
