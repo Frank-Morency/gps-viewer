@@ -132,7 +132,7 @@ void parse(char *out, char *Pref)
 		//Add sub func to parse different sentences
 		//To check need to be printed in order... else mixed up (index 2 may end up 8
 		//when printf are all togheter at the end ???
-		printf("Title: %s \n", to_parse[0]);
+/*		printf("Title: %s \n", to_parse[0]);
 
 		strcpy(conv_time, to_parse[1]); //used for utc_loc
 		//printf("time %s\n", conv_time);
@@ -149,6 +149,8 @@ void parse(char *out, char *Pref)
 		//printf("%s deg\n", conv_heading);
 			printf("Heading: %.2f %s\n", atof(conv_heading), heading(atof(conv_heading)));
 		}
+*/
+		gprmc(to_parse);
 	}
 
 	free(to_parse); // func free to_parse[j]
@@ -354,14 +356,14 @@ void	gprmc(char **input)
 	char received[100];
 	int i = 0;
 	int j = 0;
-	char	conv_time;
-	char	alert;
-	char	conv_lat;
-	char	conv_long;
-	char	conv_speed;
-	char	conv_heading;
-	char	date_gps;
-	char	mag_decl;
+	char	conv_time[16];
+	char	alert[16];
+	char	conv_lat[16];
+	char	conv_long[16];
+	char	conv_speed[16];
+	char	conv_heading[16];
+	char	date_gps[16];
+	char	mag_decl[16];
 	
 
 	while (input != NULL)
@@ -369,20 +371,27 @@ void	gprmc(char **input)
 		//To check need to be printed in order... else mixed up (index 2 may end up 8
 		//when printf are all togheter at the end ???
 		printf("Title: %s \n", input[0]);
-		strcpy(conv_time, input[1]); //used for utc_loc
-		
+		printf("-------------------------\n");
+		strcpy(conv_time, &*input[1]); //used for utc_loc
 		printf("Local Time: %.0lf\n", utc_loc(atof(conv_time)));
-		if (*input[7] != ' ')
+		printf("-------------------------\n");
+		if (input[7] != NULL)
 		{
-			strcpy(conv_speed, input[7]); //used for speed km
+			strcpy(conv_speed, &*input[7]); //used for speed km
 			printf("Speed: %.2f MPH\n", kn_mph(atof(conv_speed)));
 		}
-		if (*input[2] == 'A')
+		//printf("skipped");
+		if (input[2] != NULL)
 		{
-			strcpy(conv_heading, input[8]); //used for heading
+			strcpy(alert, &*input[2]);
+			if (alert[0] == 'A'){
+
+			strcpy(conv_heading, &*input[8]); //used for heading
 		//printf("%s deg\n", conv_heading);
 			printf("Heading: %.2f %s\n", atof(conv_heading), heading(atof(conv_heading)));
+			}
 		}
+		break;
 	}   
 
 }
