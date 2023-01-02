@@ -289,13 +289,13 @@ void	gpgsv(char **input)
 	char received[100];
 	int i = 0;
 	int j = 0;
-	char	num_sent;
-	char	num_this;
-	char	num_sat;
-	char	sat_num;
-	char	sat_elev;
-	char	sat_azimuth;
-	char	sat_sn;
+	char	num_sent[3];
+	char	num_this[3];
+	char	num_sat[3];
+	char	sat_num[3];
+	char	sat_elev[6];
+	char	sat_azimuth[6];
+	char	sat_sn[4];
 	
 
 	while (input != NULL)
