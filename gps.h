@@ -379,6 +379,8 @@ void	gprmc(char **input)
 		{
 			strcpy(conv_speed, &*input[7]); //used for speed km
 			printf("Speed: %.2f MPH\n", kn_mph(atof(conv_speed)));
+			printf("Speed: %.2f KM/H\n", kn_km(atof(conv_speed)));
+
 		}
 		//printf("skipped");
 		if (input[2] != NULL)
