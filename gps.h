@@ -235,7 +235,7 @@ static int word_cnt(char const *s, char *c)
 	int word;
 	int i;
 	char temp[40];
-	int j = 0;		//test
+	//int j = 0;		//test
 
 	i = 0;
 	word = 0;
@@ -246,7 +246,7 @@ static int word_cnt(char const *s, char *c)
 			//word++;
 			while (s[i] != c[0] && s[i] != c[1] && s[i] != '\0')
 			{
-				temp[j++] = s[i];
+//				temp[j++] = s[i]; //test
 				i++;
 			}
 			if (s[i] == c[0] || s[i] == c[1] || s[i] == '\n')
@@ -262,11 +262,11 @@ static int word_cnt(char const *s, char *c)
 			i++;
             word++;
         }
-		printf("w_cnt: \t%s\n", temp); // test
-		j = 0;						//test
-		bzero(temp, 40);			//test
+		//printf("w_cnt: \t%s\n", temp); // test
+		//j = 0;						//test
+		//bzero(temp, 40);			//test
 	}
-	printf("number of word: %d\n", word);
+	//printf("number of word: %d\n", word); // temp check lenght
 	return (word);
 }
 
@@ -373,7 +373,7 @@ void	gprmc(char **input)
 		printf("Title: %s \n", input[0]);
 		printf("-------------------------\n");
 		strcpy(conv_time, &*input[1]); //used for utc_loc
-		printf("Local Time: %.0lf\n", utc_loc(atof(conv_time)));
+		printf("Time  Local: %.0lf\tU.T.C:%s\n", utc_loc(atof(conv_time)), conv_time);
 		printf("-------------------------\n");
 		if (input[7] != NULL)
 		{
@@ -391,6 +391,7 @@ void	gprmc(char **input)
 			printf("Heading: %.2f %s\n", atof(conv_heading), heading(atof(conv_heading)));
 			}
 		}
+		printf("\n\n");
 		break;
 	}   
 
