@@ -364,36 +364,33 @@ void	gprmc(char **input)
 	char	conv_heading[16];
 	char	date_gps[16];
 	char	mag_decl[16];
+	char	gps_date[7];
 	
 
-	while (input != NULL)
+	while (*input != NULL)
 	{
 		//To check need to be printed in order... else mixed up (index 2 may end up 8
 		//when printf are all togheter at the end ???
 		printf("Title: %s \n", input[0]);
 		printf("-------------------------\n");
+		strcpy(gps_date, &*input[9]);
+		printf("Date: %s DD/MM/YY\n", gps_date);
 		strcpy(conv_time, &*input[1]); //used for utc_loc
 		printf("Time  Local: %.0lf\tU.T.C:%s\n", utc_loc(atof(conv_time)), conv_time);
 		printf("-------------------------\n");
-		if (input[7] != NULL)
+		strcpy(alert, &*input[2]);
+		if (alert[0] == 'A')
 		{
 			strcpy(conv_speed, &*input[7]); //used for speed km
 			printf("Speed: %.2f MPH\n", kn_mph(atof(conv_speed)));
 			printf("Speed: %.2f KM/H\n", kn_km(atof(conv_speed)));
-
-		}
-		//printf("skipped");
-		if (input[2] != NULL)
-		{
-			strcpy(alert, &*input[2]);
-			if (alert[0] == 'A'){
-
+			
 			strcpy(conv_heading, &*input[8]); //used for heading
-		//printf("%s deg\n", conv_heading);
 			printf("Heading: %.2f %s\n", atof(conv_heading), heading(atof(conv_heading)));
-			}
 		}
-		printf("\n\n");
+		else
+			printf("\n\n\n");
+		printf("\n");
 		break;
 	}   
 
