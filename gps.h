@@ -25,6 +25,10 @@ char *heading(float deg);
 float m_f(float m);
 static int word_cnt(char const *s, char *c);
 int char_cnt(char const *s, char *c);
+void	gpgsv(char **input);
+void	gpgsa(char **input);
+void	gpgga(char **input);
+void	gprmc(char **input);
 
 int open_fd(void)
 {
@@ -124,18 +128,21 @@ void parse(char *out, char *Pref)
 	//here it's splited and ready to translate
 	if (memcmp(&to_parse[0][0], Pref, 6) == 0)
 	{
-
+		//Add sub func to parse different sentences
 		//To check need to be printed in order... else mixed up (index 2 may end up 8
 		//when printf are all togheter at the end ???
 		printf("Title: %s \n", to_parse[0]);
 
 		strcpy(conv_time, to_parse[1]); //used for utc_loc
 		//printf("time %s\n", conv_time);
+		
 		printf("Local Time: %.0lf\n", utc_loc(atof(conv_time)));
-
-		strcpy(conv_heading, to_parse[8]); //used for heading
+		if (*to_parse[2] == 'A')
+		{
+			strcpy(conv_heading, to_parse[8]); //used for heading
 		//printf("%s deg\n", conv_heading);
-		printf("Heading %s %s\n", to_parse[8], heading(atof(conv_heading)));
+			printf("Heading %s %s\n", to_parse[8], heading(atof(conv_heading)));
+		}
 	}
 
 	free(to_parse); // func free to_parse[j]
@@ -154,7 +161,14 @@ float kn_mph(float knot)
 double utc_loc(double utc)
 {
 	//***add system local timezone
-		return (TZ_LOCAL + utc);
+	double correct_time;
+	if ((utc + TZ_LOCAL) < 0)
+		{
+			correct_time = (240000.0 + utc); 
+		}
+	else
+		correct_time = utc;
+		return (TZ_LOCAL + correct_time);
 }
 
 float m_f(float m)
@@ -164,7 +178,7 @@ float m_f(float m)
 
 char *heading(float deg)
 {
-	char *dir[] = {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"};
+	char *dir[] = {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW", "N.A."};
 	char *direction = NULL;
 
 	if (deg == 0 || deg == 360)
@@ -199,6 +213,8 @@ char *heading(float deg)
 		direction = dir[14];
 	else if (deg > 315 && deg < 360)
 		direction = dir[15];
+	else
+		direction = dir[16];
 	return (direction);
 }
 
@@ -254,4 +270,25 @@ int char_cnt(char const *s, char *c)
 	}
 	return (cnt);
 }
+
+void	gpgsv(char **input)
+{
+
+}
+
+void	gpgsa(char **input)
+{
+
+}
+
+void	gpgga(char **input)
+{
+
+}
+
+void	gprmc(char **input)
+{
+
+}
+
 #endif
