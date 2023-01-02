@@ -98,6 +98,7 @@ void parse(char *out, char *Pref)
 	int k = 0;
 	char conv_time[40];
 	char conv_heading[4];
+	char conv_km[7];
 	char c[] = {',','*'};
 
 	to_parse = (char **)malloc(sizeof(char *) * word_cnt(out, c) + 1);
@@ -137,11 +138,16 @@ void parse(char *out, char *Pref)
 		//printf("time %s\n", conv_time);
 		
 		printf("Local Time: %.0lf\n", utc_loc(atof(conv_time)));
+		if (*to_parse[7] != ' ')
+		{
+			strcpy(conv_km, to_parse[7]); //used for speed km
+			printf("Speed: %.2f MPH\n", kn_mph(atof(conv_km)));
+		}
 		if (*to_parse[2] == 'A')
 		{
 			strcpy(conv_heading, to_parse[8]); //used for heading
 		//printf("%s deg\n", conv_heading);
-			printf("Heading %s %s\n", to_parse[8], heading(atof(conv_heading)));
+			printf("Heading: %.2f %s\n", atof(conv_heading), heading(atof(conv_heading)));
 		}
 	}
 
@@ -150,16 +156,19 @@ void parse(char *out, char *Pref)
 
 float kn_km(float knot)
 {
+	//OK Working
 	return (knot * 1.852);
 }
 
 float kn_mph(float knot)
 {
+	//OK Working
 	return (knot * 1.150779);
 }
 
 double utc_loc(double utc)
 {
+	//OK Working
 	//***add system local timezone
 	double correct_time;
 	if ((utc + TZ_LOCAL) < 0)
@@ -178,7 +187,8 @@ float m_f(float m)
 
 char *heading(float deg)
 {
-	char *dir[] = {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW", "N.A."};
+	//OK Working
+	char *dir[] = {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW", "n.a."};
 	char *direction = NULL;
 
 	if (deg == 0 || deg == 360)
