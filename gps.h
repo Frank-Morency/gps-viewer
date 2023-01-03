@@ -121,10 +121,19 @@ void parse(char *out, char *Pref)
 			}
 			strncpy(to_parse[j++], &out[i], (char_cnt(out + i, c)));
 			while (out[i] != ',' && out[i] != '*' && out[i] != '\n' && out[i] != '\0')
+			{
 				i++;
+			}
 		}
+		/*if (out[i] == ',')
+				{
+					to_parse[j++] = "X";
+					i++;
+				}
+		*/		
 		k++;
 		i++;
+		
 	}
 	//here it's splited and ready to translate
 	if (memcmp(&to_parse[0][0], Pref, 6) == 0)
@@ -238,7 +247,7 @@ static int word_cnt(char const *s, char *c)
 	int word;
 	int i;
 	char temp[40];
-	//int j = 0;		//test
+	int j = 0;		//test
 
 	i = 0;
 	word = 0;
@@ -249,7 +258,7 @@ static int word_cnt(char const *s, char *c)
 			//word++;
 			while (s[i] != c[0] && s[i] != c[1] && s[i] != '\0')
 			{
-//				temp[j++] = s[i]; //test
+				temp[j++] = s[i]; //test
 				i++;
 			}
 			if (s[i] == c[0] || s[i] == c[1] || s[i] == '\n')
@@ -265,11 +274,11 @@ static int word_cnt(char const *s, char *c)
 			i++;
             word++;
         }
-		//printf("w_cnt: \t%s\n", temp); // test
-		//j = 0;						//test
-		//bzero(temp, 40);			//test
+		printf("w_cnt: \t%s\n", temp); // test
+		j = 0;						//test
+		bzero(temp, 40);			//test
 	}
-	//printf("number of word: %d\n", word); // temp check lenght
+	printf("number of word: %d\n", word); // temp check lenght
 	return (word);
 }
 
