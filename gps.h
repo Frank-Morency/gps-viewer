@@ -150,6 +150,8 @@ void parse(char *out, char *Pref)
 			printf("Heading: %.2f %s\n", atof(conv_heading), heading(atof(conv_heading)));
 		}
 */
+		//add it statement to lnow wich parsing to use
+
 		gprmc(to_parse);
 	}
 
@@ -232,6 +234,7 @@ char *heading(float deg)
 
 static int word_cnt(char const *s, char *c)
 {
+	//Working ok (rework to do, re-check for nmea txt input \r\n)
 	int word;
 	int i;
 	char temp[40];
@@ -272,6 +275,7 @@ static int word_cnt(char const *s, char *c)
 
 int char_cnt(char const *s, char *c)
 {
+	//Working ok (re-check for nmea txt input \r\n)
 	int cnt;
 
 	cnt = 0;
@@ -286,16 +290,32 @@ int char_cnt(char const *s, char *c)
 void	gpgsv(char **input)
 {
 	//if more than 1 sentences ??? think about what to do ???
+	//add index var that reset when last sentence proceded compare to num_sent
+
 	char received[100];
 	int i = 0;
 	int j = 0;
 	char	num_sent[3];
 	char	num_this[3];
 	char	num_sat[3];
-	char	sat_num[3];
-	char	sat_elev[6];
-	char	sat_azimuth[6];
-	char	sat_sn[4];
+	char	sat_id1[3];
+	char	sat_elev1[6];
+	char	sat_azimuth1[6];
+	char	sat_sn1[4];
+	char	sat_id2[3];
+	char	sat_elev2[6];
+	char	sat_azimuth2[6];
+	char	sat_sn2[4];
+	char	sat_id3[3];
+	char	sat_elev3[6];
+	char	sat_azimuth3[6];
+	char	sat_sn3[4];
+	char	sat_id4[3];
+	char	sat_elev4[6];
+	char	sat_azimuth4[6];
+	char	sat_sn4[4];
+	// check if input[num] != null before processing 
+	//(check for struct ?? send data in struct and process after ??)
 	
 
 	while (input != NULL)
@@ -306,10 +326,10 @@ void	gpgsv(char **input)
 		strcpy(num_sent, input[1]); //used for num of sentence in sequence
 		strcpy(num_this, input[2]); //number of this sentence
 		strcpy(num_sat, input[3]); //number of sat total
-		strcpy(sat_num, input[4]); //no of the sat
-		strcpy(sat_elev, input[5]);
-		strcpy(sat_azimuth, input[6]);
-		strcpy(sat_sn, input[7]);
+		strcpy(sat_id1, input[4]); //id of the sat
+		strcpy(sat_elev1, input[5]);
+		strcpy(sat_azimuth1, input[6]);
+		strcpy(sat_sn1, input[7]);
 
 	}   
 
@@ -317,37 +337,55 @@ void	gpgsv(char **input)
 
 void	gpgsa(char **input)
 {
-char received[100];
+	//check if field empty before strcpy
+	char received[100];
 	int i = 0;
 	int j = 0;
-	char	fix_typ;
-	char	fix_a;
-	char	sat_id; //max 12
-	char	pdop;
-	char	hdop;
-	char	vdop;
+	char	fix_typ[2];
+	char	fix_a[2];
+	char	sat_id1[4]; //max 12
+	char	sat_id2[4]; //max 12
+	char	sat_id3[4]; //max 12
+	char	sat_id4[4]; //max 12
+	char	sat_id5[4]; //max 12
+	char	sat_id6[4]; //max 12
+	char	sat_id7[4]; //max 12
+	char	sat_id8[4]; //max 12
+	char	sat_id9[4]; //max 12
+	char	sat_id10[4]; //max 12
+	char	sat_id11[4]; //max 12
+	char	sat_id12[4]; //max 12
+	char	pdop[6];
+	char	hdop[6];
+	char	vdop[6];
+
+	strcpy(fix_typ, &*input[1]);
+	strcpy(fix_a, &*input[2]);
+	strcpy(sat_id1, &*input[3]);
+	strcpy(pdop, &*input[15]);
+	strcpy(hdop, &*input[16]);
+	strcpy(vdop, &*input[17]);
  
 }
 
 void	gpgga(char **input)
 {
+	//check if field empty before strcpy
 	char received[100];
 	int i = 0;
 	int j = 0;
-	char	conv_time;
-	char	conv_lat;
-	char	conv_long;
-	char	conv_fix;
-	char	conv_num_sat;
-	char	hdop;
-	char	conv_alti;
-	char	height_mean_sea;
+	char	conv_time[11];
+	char	conv_lat[11];
+	char	conv_long[11];
+	char	conv_fix[2];
+	char	conv_num_sat[4];
+	char	hdop[5];
+	char	conv_alti[11];
+	char	height_mean_sea[8];
+	
 	
 
-	while (input != NULL)
-	{
-		printf("test");
-	}   
+	   
 
 }
 
