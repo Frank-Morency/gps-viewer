@@ -18,37 +18,37 @@ If you dont put any argument you have to select at runtime*/
 
 int main(int argc, char *argv[])
 {
-	char ref[100] = "x";
+	char ref[100] = "x"; //init ref to x
 	char *Pref = ref;
 	int fd;
 	char buf[100];
 	char out[100];
 
-	fd = open_fd();
-	set_port(fd);
+	fd = open_fd(); //open file descriptor (serial port)
+	set_port(fd); //set serial port baud rate
 
 	if (argc == 2)
-		strcpy(ref, argv[1]);
+		strcpy(ref, argv[1]); // if argument copy it in ref
 	else
-		menu(Pref);
+		menu(Pref); // call menu 
 	while (fd)
 	{
-		read(fd, &buf, 100);
-		if (*buf == '$')
+		read(fd, &buf, 100); // read buffer
+		if (*buf == '$') // if buffer first char is $ 
 		{
-			strcpy(out, buf);
-			if (ref[0] != '$')
+			strcpy(out, buf); //copy buffer in out
+			if (ref[0] != '$') // if ref are not $ process all sentences
 			{
 				printf("%s", out);
-//				parse(out, Pref);
+				parse(out, Pref);
 //				exit(0);
 			}
 			else
 			{
-				if (memcmp(buf, ref, 6) == 0)
+				if (memcmp(buf, ref, 6) == 0) // if first char are = process selected (must change to 7)
 				{
 					printf("%s", out);
-//					parse(out, Pref);
+					parse(out, Pref);
 				}	
 			}
 			bzero(buf, 100);
